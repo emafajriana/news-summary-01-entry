@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, statSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const outputDirectory = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
@@ -8,6 +8,6 @@ const destination = join(outputDirectory, 'entry.txt');
 mkdirSync(outputDirectory, { recursive: true });
 copyFileSync(source, destination);
 
-if (statSync(source).size !== statSync(destination).size) {
+if (statSync(source).size !== readFileSync(destination).byteLength) {
   throw new Error('Copied entry byte count does not match summary.txt');
 }
